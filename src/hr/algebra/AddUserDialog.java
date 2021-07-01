@@ -34,6 +34,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         this.userAddable = (UserAddable)owner;
         initComponents();
         initValidation();
+        this.getRootPane().setDefaultButton(btnAddUser);
     }
 
     /**

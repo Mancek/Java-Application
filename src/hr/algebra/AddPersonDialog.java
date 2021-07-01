@@ -33,6 +33,7 @@ public class AddPersonDialog extends javax.swing.JDialog {
         this.personAddable = personAddable;
         initComponents();
         initValidation();
+        this.getRootPane().setDefaultButton(btnAdd);
     }
 
     /**

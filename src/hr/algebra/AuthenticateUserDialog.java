@@ -35,6 +35,7 @@ public class AuthenticateUserDialog extends javax.swing.JDialog {
         this.userAuthenticable = (UserAuthenticable)owner;
         initComponents();
         initValidation();
+        this.getRootPane().setDefaultButton(btnLogin);
     }
 
     /**

@@ -104,7 +104,6 @@ public class UploadMoviesPanel extends javax.swing.JPanel {
                 List<Movie> movies = MovieParser.parse();
                 repository.create(movies);
                 loadModel();
-
             } catch (Exception ex) {
                 Logger.getLogger(UploadMoviesPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -131,7 +130,13 @@ public class UploadMoviesPanel extends javax.swing.JPanel {
         try {
             moviesModel = new DefaultListModel<>();
             repository = RepositoryFactory.getMovieRepository();
-            loadModel();
+            new Thread(() -> {
+                try {
+                    loadModel();
+                } catch (Exception ex) {
+                    Logger.getLogger(UploadMoviesPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }).start();
         } catch (Exception ex) {
             Logger.getLogger(UploadMoviesPanel.class.getName()).log(Level.SEVERE, null, ex);
             MessageUtils.showErrorMessage("Error", "Unable to load form");
@@ -140,16 +145,14 @@ public class UploadMoviesPanel extends javax.swing.JPanel {
     }
 
     private void loadModel() throws Exception {
-        new Thread(() -> {
-            try {
-                List<Movie> movies = repository.select();
-                moviesModel.clear();
-                movies.forEach(moviesModel::addElement);
-                lsMovies.setModel(moviesModel);
-            } catch (Exception ex) {
-                Logger.getLogger(UploadMoviesPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).start();
+        try {
+            List<Movie> movies = repository.select();
+            moviesModel.clear();
+            movies.forEach(moviesModel::addElement);
+            lsMovies.setModel(moviesModel);
+        } catch (Exception ex) {
+            Logger.getLogger(UploadMoviesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void deleteAllMovies() throws Exception {
